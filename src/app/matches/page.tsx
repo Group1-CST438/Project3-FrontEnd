@@ -10,23 +10,23 @@ const sidebarItems = [
 
 const matches = [
     {
-        id: 'eco-track-ai',
-        title: 'EcoTrack AI',
+        id: 'mappedout',
+        title: 'MappedOut',
         description:
-            'Building an AI-powered system to track carbon footprints in real-time using IoT sensors and machine learning.',
-        roles: ['Frontend Engineer', 'Data Scientist', 'UI Designer'],
-        owner: 'Alex Rivera',
+            'A map-driven app for finding nearby car photo spots, helping users explore their area and discover visually strong locations for shoots and meetups.',
+        roles: ['Mobile Developer', 'Map API Engineer', 'UX Designer'],
+        owner: 'Rishabh Patel',
         image:
-            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
         status: 'Matched',
     },
     {
-        id: 'soundscape-vr',
-        title: 'SoundScape VR',
+        id: 'motorRyx',
+        title: 'MotorRyx',
         description:
-            'An immersive virtual reality experience that translates sound into visual landscapes for the hearing impaired.',
-        roles: ['Unity Developer', 'Sound Engineer', 'UX Researcher'],
-        owner: 'Sarah Chen',
+            'Any model, any track, every lap. An application to help find drivers on any track across the world to view their lap times and their car models',
+        roles: ['Web Developer', 'Cybersecurity Engineer', 'Data Scientist'],
+        owner: 'MotorRyx Team',
         image:
             'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80',
         status: 'Matched',

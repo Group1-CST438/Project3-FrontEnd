@@ -10,52 +10,40 @@ const sidebarItems = [
 
 const projects = [
     {
-        id: 'eco-track-ai',
-        title: 'EcoTrack AI',
-        category: ['Sustainability', 'AI'],
+        id: 'parknarc',
+        title: 'ParkNarc',
+        category: ['Mobile App', 'Campus Safety'],
         description:
-            'Build an AI-powered platform that helps students and local businesses track carbon footprints using simple reporting tools and dashboards.',
-        roles: ['Frontend Engineer', 'Data Scientist', 'UI Designer'],
-        owner: 'Alex Rivera',
+            'A real-time, community-powered parking alert app built for campus environments. Students can share live parking activity, avoid tickets, and find open spots faster.',
+        roles: ['Mobile Developer', 'Backend Engineer', 'UX Designer'],
+        owner: 'Noe Gutierrez',
         image:
-            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
+            'images/ParkNarc.webp',
         status: 'New',
     },
     {
-        id: 'soundscape-vr',
-        title: 'SoundScape VR',
-        category: ['VR', 'Accessibility'],
+        id: 'mappedout',
+        title: 'MappedOut',
+        category: ['Mobile App', 'Photography'],
         description:
-            'Design an immersive virtual reality experience that translates ambient sound into visual landscapes for more inclusive storytelling.',
-        roles: ['Unity Developer', 'Sound Engineer', 'UX Researcher'],
-        owner: 'Sarah Chen',
+            'A location-based app that helps users discover scenic spots nearby where they can take great photos of their cars, from urban backdrops to hidden overlooks.',
+        roles: ['Mobile Developer', 'Map API Engineer', 'UI Designer'],
+        owner: 'Rishabh Patel',
         image:
-            'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
         status: 'New',
     },
     {
-        id: 'localfood-connect',
-        title: 'LocalFood Connect',
-        category: ['Agriculture', 'E-commerce'],
+        id: 'furnace-video-program',
+        title: 'Furnace Teen Video Program',
+        category: ['Education', 'Content Creation'],
         description:
-            'Create a platform that connects local farmers directly with urban consumers to reduce waste and support neighborhood food networks.',
-        roles: ['Mobile Developer', 'Marketing Lead', 'Backend Engineer'],
-        owner: 'Marcus Johnson',
+            'A community-driven project where volunteers create and teach informational videos for teenagers, covering topics like life skills, creativity, and personal growth through engaging media.',
+        roles: ['Video Editor', 'Content Creator', 'Workshop Instructor'],
+        owner: 'The Furnace Teen Center',
         image:
-            'https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=1200&q=80',
+            'images/furnace.avif',
         status: 'New',
-    },
-    {
-        id: 'reelwise',
-        title: 'ReelWise',
-        category: ['Film', 'Analytics'],
-        description:
-            'Help indie filmmakers understand audience engagement with a dashboard for trailer feedback, campaign metrics, and release planning.',
-        roles: ['Full Stack Developer', 'Business Analyst', 'Motion Designer'],
-        owner: 'Naomi Brooks',
-        image:
-            'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80',
-        status: 'Featured',
     },
 ]
 
@@ -220,9 +208,12 @@ export default function ProjectsPage() {
                                     <div className="flex h-full flex-col">
                                         <div className="relative h-52 w-full overflow-hidden">
                                             <img
+                                                style={{
+                                                    background: 'radial-gradient(circle, rgba(0,255,255,0.1), transparent)'
+                                                }}
                                                 src={project.image}
                                                 alt={project.title}
-                                                className="h-full w-full object-cover"
+                                                className="h-full w-full object-contain p-4 bg-black"
                                             />
                                             <div className="absolute right-4 top-4">
                         <span

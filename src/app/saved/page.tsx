@@ -10,28 +10,28 @@ const sidebarItems = [
 
 const savedProjects = [
     {
-        id: 'localfood-connect',
-        title: 'LocalFood Connect',
-        category: ['Agriculture', 'E-commerce'],
+        id: 'parknarc',
+        title: 'ParkNarc',
+        category: ['Social Networking', 'Campus Life'],
         description:
-            'A platform connecting local farmers directly with urban consumers to reduce food waste and support neighborhood food systems.',
-        roles: ['Mobile Developer', 'Marketing Lead', 'Backend Engineer'],
-        owner: 'Marcus Johnson',
+            'A student-focused app for sharing parking alerts around campus, helping drivers stay informed, avoid tickets, and make faster parking decisions.',
+        roles: ['iOS Developer', 'Backend Engineer', 'Product Designer'],
+        owner: 'Noe Gutierrez',
         image:
-            'https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=1200&q=80',
-        savedDate: 'Saved 2 days ago',
+            'images/ParkNarc.webp',
+        savedDate: 'Saved today',
     },
     {
-        id: 'reelwise',
-        title: 'ReelWise',
-        category: ['Film', 'Analytics'],
+        id: 'furnace-video-program',
+        title: 'Furnace Teen Video Program',
+        category: ['Nonprofit', 'Education'],
         description:
-            'A project that helps indie filmmakers understand audience engagement through trailer feedback, campaign metrics, and release planning.',
-        roles: ['Full Stack Developer', 'Business Analyst', 'Motion Designer'],
-        owner: 'Naomi Brooks',
+            'A youth-focused initiative where volunteers teach teens through video production, helping them learn new skills, explore interests, and build confidence through creative content.',
+        roles: ['Video Creator', 'Editor', 'Mentor'],
+        owner: 'The Furnace Teen Center',
         image:
-            'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80',
-        savedDate: 'Saved this week',
+            '/images/furnace.avif',
+        savedDate: 'Saved today',
     },
 ]
 
@@ -172,9 +172,12 @@ export default function SavedPage() {
                                     <div className="flex flex-col md:flex-row">
                                         <div className="w-full md:w-[220px] shrink-0">
                                             <img
+                                                style={{
+                                                    background: 'radial-gradient(circle, rgba(0,255,255,0.1), transparent)'
+                                                }}
                                                 src={project.image}
                                                 alt={project.title}
-                                                className="h-full w-full object-cover md:min-h-[200px]"
+                                                className="h-full w-full object-contain p-4 bg-black"
                                             />
                                         </div>
 
