@@ -162,22 +162,22 @@ export default function Home() {
             </span>
                     </HexPanel>
 
-                    <HexPanel
-                        fill="rgba(19,34,58,0.6)"
-                        borderColor="rgba(111,149,197,0.45)"
-                        cut={10}
-                        className="cursor-pointer transition-all duration-150 hover:brightness-125"
-                        contentStyle={{ padding: '12px 28px' }}
-                    >
-            <span
-                className="text-base font-semibold"
-                style={{ color: 'var(--fp-text-secondary)' }}
+          {/* Secondary CTA */}
+          <Link href="/discover">
+            <HexPanel
+              fill="rgba(19,34,58,0.6)"
+              borderColor="rgba(111,149,197,0.45)"
+              cut={10}
+              className="cursor-pointer transition-all duration-150 hover:brightness-125"
+              contentStyle={{ padding: '12px 28px' }}
             >
-              Browse Projects
-            </span>
-                    </HexPanel>
-                </div>
-            </section>
+              <span className="text-base font-semibold" style={{ color: 'var(--fp-text-secondary)' }}>
+                Browse Projects
+              </span>
+            </HexPanel>
+          </Link>
+        </div>
+      </section>
 
             <section className="max-w-6xl mx-auto w-full px-6 pb-24">
                 <p
