@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import HexPanel from '@/components/HexPanel'
 
 const majors = [
@@ -147,17 +148,19 @@ export default function Home() {
           </HexPanel>
 
           {/* Secondary CTA */}
-          <HexPanel
-            fill="rgba(19,34,58,0.6)"
-            borderColor="rgba(111,149,197,0.45)"
-            cut={10}
-            className="cursor-pointer transition-all duration-150 hover:brightness-125"
-            contentStyle={{ padding: '12px 28px' }}
-          >
-            <span className="text-base font-semibold" style={{ color: 'var(--fp-text-secondary)' }}>
-              Browse Projects
-            </span>
-          </HexPanel>
+          <Link href="/discover">
+            <HexPanel
+              fill="rgba(19,34,58,0.6)"
+              borderColor="rgba(111,149,197,0.45)"
+              cut={10}
+              className="cursor-pointer transition-all duration-150 hover:brightness-125"
+              contentStyle={{ padding: '12px 28px' }}
+            >
+              <span className="text-base font-semibold" style={{ color: 'var(--fp-text-secondary)' }}>
+                Browse Projects
+              </span>
+            </HexPanel>
+          </Link>
         </div>
       </section>
 
