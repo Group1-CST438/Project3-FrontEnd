@@ -190,3 +190,53 @@ export async function passProject(projectId: string): Promise<void> {
   const res = await fetch(`${API_BASE}/projects/${projectId}/pass`, { method: 'POST' })
   if (!res.ok) throw new Error('Failed to pass project')
 }
+
+// ── Project CRUD ────────────────────────────────────────────────────────────
+
+export interface BackendProject {
+  id: string
+  userId: string | null
+  title: string
+  generalDescription: string | null
+  type: string | null
+  county: string | null
+}
+
+export async function getProjects(): Promise<BackendProject[]> {
+  const res = await fetch(`${API_BASE}/projects`)
+  if (!res.ok) throw new Error(`Failed to load projects (${res.status})`)
+  return res.json()
+}
+
+export async function createProject(data: {
+  title: string
+  generalDescription?: string
+  type?: string
+  county?: string
+}): Promise<BackendProject> {
+  const res = await fetch(`${API_BASE}/projects`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: null, ...data }),
+  })
+  if (!res.ok) throw new Error(`Failed to create project (${res.status})`)
+  return res.json()
+}
+
+export async function updateProject(
+  id: string,
+  data: { title?: string; generalDescription?: string; type?: string; county?: string },
+): Promise<BackendProject> {
+  const res = await fetch(`${API_BASE}/projects/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) throw new Error(`Failed to update project (${res.status})`)
+  return res.json()
+}
+
+export async function deleteProject(id: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/projects/${id}`, { method: 'DELETE' })
+  if (!res.ok) throw new Error(`Failed to delete project (${res.status})`)
+}
