@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import HexPanel from '@/components/HexPanel'
+import Navbar from '@/components/Navbar'
 import ProjectCard from '@/components/ProjectCard'
 import { fetchProjects, expressInterest, passProject } from '@/lib/api'
 import type { Project, MajorTag, ProjectStatus } from '@/types/project'
@@ -158,56 +159,7 @@ export default function DiscoverPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navbar */}
-      <nav
-        className="sticky top-0 z-50 backdrop-blur-md"
-        style={{
-          background: 'rgba(8,13,20,0.72)',
-          borderBottom: '1px solid rgba(111,149,197,0.25)',
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-lg font-bold tracking-tight hover:brightness-110 transition-all"
-            style={{ color: 'var(--fp-text-primary)' }}
-          >
-            ProjectMatch
-          </Link>
-          <div className="flex items-center gap-3">
-            <button
-              className="px-4 py-1.5 text-sm font-medium transition-colors hover:brightness-110"
-              style={{ color: 'var(--fp-text-muted)' }}
-            >
-              Log in
-            </button>
-            <div style={{ position: 'relative' }}>
-              <div
-                aria-hidden
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  clipPath: clip(8),
-                  background: 'var(--fp-panel-border)',
-                  boxShadow: '0 0 12px var(--fp-panel-glow-1)',
-                  pointerEvents: 'none',
-                }}
-              />
-              <button
-                className="relative px-4 py-1.5 text-sm font-semibold transition-all hover:brightness-110"
-                style={{
-                  margin: 2,
-                  clipPath: clip(6),
-                  background: 'var(--fp-surface-accent)',
-                  color: 'var(--fp-button-accent)',
-                }}
-              >
-                Sign up
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Page header */}
       <div className="max-w-6xl mx-auto w-full px-6 pt-12 pb-6">

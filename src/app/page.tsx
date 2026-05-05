@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import HexPanel from '@/components/HexPanel'
+import Navbar from '@/components/Navbar'
 
 const majors = [
     {
@@ -57,64 +58,7 @@ function cutCorners(px: number) {
 export default function Home() {
     return (
         <div className="flex flex-col min-h-screen">
-            <nav
-                className="sticky top-0 z-50 backdrop-blur-md"
-                style={{
-                    background: 'rgba(8,13,20,0.72)',
-                    borderBottom: '1px solid rgba(111,149,197,0.25)',
-                    clipPath: cutCorners(0),
-                }}
-            >
-                <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span
-              className="text-lg font-bold tracking-tight"
-              style={{ color: 'var(--fp-text-primary)' }}
-          >
-            ProjectMatch
-          </span>
-
-                    <div className="flex items-center gap-3">
-                        <Link
-                            href="/login"
-                            className="px-4 py-1.5 text-sm font-medium transition-colors hover:brightness-110"
-                            style={{
-                                color: 'var(--fp-text-muted)',
-                                clipPath: cutCorners(6),
-                                background: 'transparent',
-                                border: 'none',
-                            }}
-                        >
-                            Log in
-                        </Link>
-
-                        <div style={{ position: 'relative' }}>
-                            <div
-                                aria-hidden
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    clipPath: cutCorners(8),
-                                    background: 'var(--fp-panel-border)',
-                                    boxShadow: '0 0 12px var(--fp-panel-glow-1)',
-                                    pointerEvents: 'none',
-                                }}
-                            />
-                            <Link
-                                href="/signup"
-                                className="relative inline-block px-4 py-1.5 text-sm font-semibold transition-all hover:brightness-110"
-                                style={{
-                                    margin: 2,
-                                    clipPath: cutCorners(6),
-                                    background: 'var(--fp-surface-accent)',
-                                    color: 'var(--fp-button-accent)',
-                                }}
-                            >
-                                Sign up
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <Navbar />
 
             <section className="flex flex-col items-center text-center px-6 pt-24 pb-20">
                 <div
