@@ -92,36 +92,40 @@ export default function Home() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                    <HexPanel
-                        fill="var(--fp-surface-accent)"
-                        cut={10}
-                        className="cursor-pointer transition-all duration-150 hover:brightness-125"
-                        contentStyle={{ padding: '12px 28px' }}
-                    >
-            <span
-                className="text-base font-semibold"
-                style={{ color: 'var(--fp-text-primary)' }}
-            >
-              Post a Project
-            </span>
-                    </HexPanel>
+                    <Link href="/projects">
+                        <HexPanel
+                            fill="var(--fp-surface-accent)"
+                            cut={10}
+                            className="cursor-pointer transition-all duration-150 hover:brightness-125"
+                            contentStyle={{ padding: '12px 28px' }}
+                        >
+                            <span
+                                className="text-base font-semibold"
+                                style={{ color: 'var(--fp-text-primary)' }}
+                            >
+                                Post a Project
+                            </span>
+                        </HexPanel>
+                    </Link>
 
-          {/* Secondary CTA */}
-          <Link href="/discover">
-            <HexPanel
-              fill="rgba(19,34,58,0.6)"
-              borderColor="rgba(111,149,197,0.45)"
-              cut={10}
-              className="cursor-pointer transition-all duration-150 hover:brightness-125"
-              contentStyle={{ padding: '12px 28px' }}
-            >
-              <span className="text-base font-semibold" style={{ color: 'var(--fp-text-secondary)' }}>
-                Browse Projects
-              </span>
-            </HexPanel>
-          </Link>
-        </div>
-      </section>
+                    <Link href="/discover">
+                        <HexPanel
+                            fill="rgba(19,34,58,0.6)"
+                            borderColor="rgba(111,149,197,0.45)"
+                            cut={10}
+                            className="cursor-pointer transition-all duration-150 hover:brightness-125"
+                            contentStyle={{ padding: '12px 28px' }}
+                        >
+                            <span
+                                className="text-base font-semibold"
+                                style={{ color: 'var(--fp-text-secondary)' }}
+                            >
+                                Browse Projects
+                            </span>
+                        </HexPanel>
+                    </Link>
+                </div>
+            </section>
 
             <section className="max-w-6xl mx-auto w-full px-6 pb-24">
                 <p
@@ -133,27 +137,28 @@ export default function Home() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {majors.map((m) => (
-                        <HexPanel
-                            key={m.id}
-                            fill={m.fill}
-                            cut={14}
-                            className="cursor-pointer transition-all duration-150 hover:brightness-125 hover:scale-[1.02]"
-                            contentStyle={{ padding: '24px 20px' }}
-                        >
-                            <div className="text-3xl mb-4">{m.icon}</div>
-                            <h3
-                                className="text-base font-semibold mb-2"
-                                style={{ color: 'var(--fp-text-primary)' }}
+                        <Link key={m.id} href={`/discover?major=${m.id}`}>
+                            <HexPanel
+                                fill={m.fill}
+                                cut={14}
+                                className="cursor-pointer transition-all duration-150 hover:brightness-125 hover:scale-[1.02]"
+                                contentStyle={{ padding: '24px 20px' }}
                             >
-                                {m.label}
-                            </h3>
-                            <p
-                                className="text-sm leading-relaxed"
-                                style={{ color: 'var(--fp-text-muted)' }}
-                            >
-                                {m.description}
-                            </p>
-                        </HexPanel>
+                                <div className="text-3xl mb-4">{m.icon}</div>
+                                <h3
+                                    className="text-base font-semibold mb-2"
+                                    style={{ color: 'var(--fp-text-primary)' }}
+                                >
+                                    {m.label}
+                                </h3>
+                                <p
+                                    className="text-sm leading-relaxed"
+                                    style={{ color: 'var(--fp-text-muted)' }}
+                                >
+                                    {m.description}
+                                </p>
+                            </HexPanel>
+                        </Link>
                     ))}
                 </div>
             </section>
@@ -181,12 +186,12 @@ export default function Home() {
                                     justifyContent: 'center',
                                 }}
                             >
-                <span
-                    className="text-sm font-bold"
-                    style={{ color: 'var(--fp-button-accent)' }}
-                >
-                  {item.step}
-                </span>
+                                <span
+                                    className="text-sm font-bold"
+                                    style={{ color: 'var(--fp-button-accent)' }}
+                                >
+                                    {item.step}
+                                </span>
                             </HexPanel>
 
                             <h3
@@ -223,19 +228,21 @@ export default function Home() {
                         what you can do.
                     </p>
                     <div className="flex justify-center">
-                        <HexPanel
-                            fill="var(--fp-surface-accent)"
-                            cut={10}
-                            className="cursor-pointer transition-all duration-150 hover:brightness-125"
-                            contentStyle={{ padding: '14px 32px' }}
-                        >
-              <span
-                  className="text-base font-semibold"
-                  style={{ color: 'var(--fp-text-primary)' }}
-              >
-                Get Started — it&apos;s free
-              </span>
-                        </HexPanel>
+                        <Link href="/signup">
+                            <HexPanel
+                                fill="var(--fp-surface-accent)"
+                                cut={10}
+                                className="cursor-pointer transition-all duration-150 hover:brightness-125"
+                                contentStyle={{ padding: '14px 32px' }}
+                            >
+                                <span
+                                    className="text-base font-semibold"
+                                    style={{ color: 'var(--fp-text-primary)' }}
+                                >
+                                    Get Started — it&apos;s free
+                                </span>
+                            </HexPanel>
+                        </Link>
                     </div>
                 </HexPanel>
             </section>
@@ -247,8 +254,8 @@ export default function Home() {
                     borderTop: '1px solid rgba(111,149,197,0.18)',
                 }}
             >
-                <span suppressHydrationWarning>© {new Date().getFullYear()}</span> ProjectMatch
-                {' '}· CUNY City Tech
+                <span suppressHydrationWarning>© {new Date().getFullYear()}</span> ProjectMatch{' '}
+                · CUNY City Tech
             </footer>
         </div>
     )
