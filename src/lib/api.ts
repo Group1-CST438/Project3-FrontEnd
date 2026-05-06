@@ -161,22 +161,48 @@ const MOCK_PROJECTS: Project[] = [
   },
 ]
 
+function mapBackendProject(p: BackendProject): Project {
+  return {
+    id: p.id,
+    title: p.title,
+    description: p.generalDescription ?? '',
+    ownerName: p.userId ?? 'Unknown',
+    majors: [],
+    tags: p.type ? p.type.split(', ').filter(Boolean) : [],
+    status: 'open',
+    spotsTotal: 0,
+    spotsFilled: 0,
+    createdAt: new Date().toISOString(),
+  }
+}
+
 export async function fetchProjects(page = 1, pageSize = 9): Promise<ProjectsPage> {
-  if (!API_BASE) {
-    await new Promise((r) => setTimeout(r, 600))
+  const paginate = (all: Project[]) => {
     const start = (page - 1) * pageSize
-    const slice = MOCK_PROJECTS.slice(start, start + pageSize)
     return {
-      projects: slice,
-      total: MOCK_PROJECTS.length,
+      projects: all.slice(start, start + pageSize),
+      total: all.length,
       page,
-      hasMore: start + pageSize < MOCK_PROJECTS.length,
+      hasMore: start + pageSize < all.length,
     }
   }
 
-  const res = await fetch(`${API_BASE}/projects?page=${page}&pageSize=${pageSize}`)
-  if (!res.ok) throw new Error(`Failed to load projects (${res.status})`)
-  return res.json() as Promise<ProjectsPage>
+  if (!API_BASE) {
+    await new Promise((r) => setTimeout(r, 600))
+    return paginate(MOCK_PROJECTS)
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/projects`)
+    if (!res.ok) throw new Error(`${res.status}`)
+    const raw = await res.json()
+    const all: Project[] = Array.isArray(raw)
+      ? raw.map(mapBackendProject)
+      : (raw as ProjectsPage).projects ?? []
+    return paginate(all.length > 0 ? all : MOCK_PROJECTS)
+  } catch {
+    return paginate(MOCK_PROJECTS)
+  }
 }
 
 export async function expressInterest(projectId: string): Promise<void> {
