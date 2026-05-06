@@ -481,10 +481,27 @@ export default function ProjectsPage() {
                                 </button>
                             </div>
                         ) : filtered.length === 0 ? (
-                            <div className="text-center py-16" style={{ color: 'var(--fp-text-muted)' }}>
-                                <p className="text-4xl mb-4">{search ? '🔍' : '📂'}</p>
-                                <p className="text-lg font-semibold">{search ? 'No projects found' : 'No projects yet'}</p>
-                                <p className="text-sm mt-1">{search ? 'Try a different search term' : 'Create your first project to get started'}</p>
+                            <div className="text-center py-24" style={{ color: 'var(--fp-text-muted)' }}>
+                                {search ? (
+                                    <>
+                                        <p className="text-4xl mb-4">🔍</p>
+                                        <p className="text-lg font-semibold mb-1" style={{ color: 'var(--fp-text-primary)' }}>No projects match &ldquo;{search}&rdquo;</p>
+                                        <p className="text-sm">Try a different search term</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <p className="text-4xl mb-4">📂</p>
+                                        <p className="text-lg font-semibold mb-1" style={{ color: 'var(--fp-text-primary)' }}>No projects yet</p>
+                                        <p className="text-sm mb-6">Post your first project and start building your team.</p>
+                                        <Link
+                                            href="/projects/new"
+                                            className="inline-block px-5 py-2.5 text-sm font-semibold transition hover:brightness-110"
+                                            style={{ clipPath: cutCorners(8), background: 'var(--fp-surface-accent)', color: 'var(--fp-button-accent)' }}
+                                        >
+                                            + Post a Project
+                                        </Link>
+                                    </>
+                                )}
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 md:grid-cols-2">

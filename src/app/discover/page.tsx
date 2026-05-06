@@ -162,13 +162,26 @@ export default function DiscoverPage() {
       <Navbar />
 
       {/* Page header */}
-      <div className="max-w-6xl mx-auto w-full px-6 pt-12 pb-6">
-        <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--fp-text-primary)' }}>
-          Discover Projects
-        </h1>
-        <p className="text-base" style={{ color: 'var(--fp-text-muted)' }}>
-          Find open-source style projects across disciplines and request to join.
-        </p>
+      <div className="max-w-6xl mx-auto w-full px-6 pt-12 pb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--fp-text-primary)' }}>
+            Discover Projects
+          </h1>
+          <p className="text-base" style={{ color: 'var(--fp-text-muted)' }}>
+            Find open-source style projects across disciplines and request to join.
+          </p>
+        </div>
+        <Link
+          href="/projects/new"
+          className="shrink-0 px-4 py-2 text-sm font-semibold transition hover:brightness-110"
+          style={{
+            clipPath: 'polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)',
+            background: 'var(--fp-surface-accent)',
+            color: 'var(--fp-button-accent)',
+          }}
+        >
+          + Post a Project
+        </Link>
       </div>
 
       {/* Filters */}
@@ -246,13 +259,34 @@ export default function DiscoverPage() {
               cut={14}
               contentStyle={{ padding: '40px 56px', textAlign: 'center' }}
             >
-              <p className="text-4xl mb-4">🔍</p>
-              <p className="text-base font-semibold mb-2" style={{ color: 'var(--fp-text-primary)' }}>
-                No projects found
-              </p>
-              <p className="text-sm" style={{ color: 'var(--fp-text-muted)' }}>
-                Try adjusting your filters or check back later.
-              </p>
+              {majorFilter === 'all' && statusFilter === 'all' ? (
+                <>
+                  <p className="text-4xl mb-4">📂</p>
+                  <p className="text-base font-semibold mb-2" style={{ color: 'var(--fp-text-primary)' }}>
+                    No projects yet
+                  </p>
+                  <p className="text-sm mb-5" style={{ color: 'var(--fp-text-muted)' }}>
+                    Be the first to post one.
+                  </p>
+                  <Link
+                    href="/projects/new"
+                    className="inline-block px-5 py-2 text-sm font-semibold transition hover:brightness-110"
+                    style={{ clipPath: 'polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)', background: 'var(--fp-surface-accent)', color: 'var(--fp-button-accent)' }}
+                  >
+                    Post a Project
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <p className="text-4xl mb-4">🔍</p>
+                  <p className="text-base font-semibold mb-2" style={{ color: 'var(--fp-text-primary)' }}>
+                    No projects match these filters
+                  </p>
+                  <p className="text-sm" style={{ color: 'var(--fp-text-muted)' }}>
+                    Try adjusting your filters or check back later.
+                  </p>
+                </>
+              )}
             </HexPanel>
           </div>
         ) : (

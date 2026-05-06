@@ -92,6 +92,7 @@ export default function Home() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
+                    <Link href="/projects/new">
                     <HexPanel
                         fill="var(--fp-surface-accent)"
                         cut={10}
@@ -105,6 +106,7 @@ export default function Home() {
               Post a Project
             </span>
                     </HexPanel>
+                    </Link>
 
           {/* Secondary CTA */}
           <Link href="/discover">
