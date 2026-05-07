@@ -1,10 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
+import { supabase } from '@/lib/supabase'
 
 type AuthMode = 'login' | 'signup'
 
@@ -18,31 +16,18 @@ function cutCorners(px: number) {
 
 export default function AuthCard({ mode }: AuthCardProps) {
     const isLogin = mode === 'login'
-    const router = useRouter()
-    const [loading, setLoading] = useState<'google' | 'github' | null>(null)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    async function signIn(provider: 'google' | 'github') {
+    async function signIn() {
         setError(null)
-        setLoading(provider)
-        try {
-            const authProvider = provider === 'google'
-                ? new GoogleAuthProvider()
-                : new GithubAuthProvider()
-            await signInWithPopup(auth, authProvider)
-            router.push('/discover')
-        } catch (err: unknown) {
-            const code = (err as { code?: string }).code
-            if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
-                // user dismissed — not an error worth showing
-            } else if (code === 'auth/account-exists-with-different-credential') {
-                setError('An account already exists with a different sign-in method.')
-            } else {
-                setError('Sign-in failed. Please try again.')
-            }
-        } finally {
-            setLoading(null)
-        }
+        setLoading(true)
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: `${window.location.origin}/auth/callback` },
+        })
+        if (error) setError('Sign-in failed. Please try again.')
+        setLoading(false)
     }
 
     return (
@@ -84,8 +69,8 @@ export default function AuthCard({ mode }: AuthCardProps) {
 
                 <div className="flex flex-col gap-3">
                     <button
-                        onClick={() => signIn('google')}
-                        disabled={loading !== null}
+                        onClick={() => signIn()}
+                        disabled={loading}
                         className="flex items-center justify-center gap-3 px-4 py-3 text-sm font-semibold rounded-md transition hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{
                             background: 'var(--fp-input-bg)',
@@ -93,7 +78,7 @@ export default function AuthCard({ mode }: AuthCardProps) {
                             color: 'var(--fp-text-primary)',
                         }}
                     >
-                        {loading === 'google' ? (
+                        {loading ? (
                             <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
                         ) : (
                             <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden>
@@ -104,26 +89,6 @@ export default function AuthCard({ mode }: AuthCardProps) {
                             </svg>
                         )}
                         Continue with Google
-                    </button>
-
-                    <button
-                        onClick={() => signIn('github')}
-                        disabled={loading !== null}
-                        className="flex items-center justify-center gap-3 px-4 py-3 text-sm font-semibold rounded-md transition hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed"
-                        style={{
-                            background: 'var(--fp-input-bg)',
-                            border: '1px solid var(--fp-input-border)',
-                            color: 'var(--fp-text-primary)',
-                        }}
-                    >
-                        {loading === 'github' ? (
-                            <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                        ) : (
-                            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden fill="currentColor">
-                                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                            </svg>
-                        )}
-                        Continue with GitHub
                     </button>
                 </div>
 

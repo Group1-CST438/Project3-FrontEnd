@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { onAuthStateChanged, type User } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
+import { type User } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -84,13 +84,20 @@ export default function ProfilePage() {
     const [saved, setSaved] = useState(false)
     const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-    // Subscribe to Firebase auth
     useEffect(() => {
-        return onAuthStateChanged(auth, (u) => {
+        supabase.auth.getSession().then(({ data }) => {
+            const u = data.session?.user ?? null
             setUser(u)
             setAuthReady(true)
-            if (u) setProfile(loadProfile(u.uid))
+            if (u) setProfile(loadProfile(u.id))
         })
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            const u = session?.user ?? null
+            setUser(u)
+            setAuthReady(true)
+            if (u) setProfile(loadProfile(u.id))
+        })
+        return () => subscription.unsubscribe()
     }, [])
 
     // Auto-save to localStorage on every change
@@ -98,7 +105,7 @@ export default function ProfilePage() {
         setProfile((prev) => {
             const next = { ...prev, ...patch }
             if (user) {
-                saveProfile(user.uid, next)
+                saveProfile(user.id, next)
                 setSaved(true)
                 if (saveTimer.current) clearTimeout(saveTimer.current)
                 saveTimer.current = setTimeout(() => setSaved(false), 1800)
@@ -201,15 +208,15 @@ export default function ProfilePage() {
 
                         {/* ── Identity ── */}
                         <div className="flex items-center gap-5">
-                            {user.photoURL ? (
-                                <img src={user.photoURL} alt={user.displayName ?? ''} className="rounded-full object-cover" style={{ width: 72, height: 72 }} referrerPolicy="no-referrer" />
+                            {user.user_metadata?.avatar_url ? (
+                                <img src={user.user_metadata?.avatar_url} alt={user.user_metadata?.full_name ?? 'Profile'} className="rounded-full object-cover" style={{ width: 72, height: 72 }} referrerPolicy="no-referrer" />
                             ) : (
                                 <div className="flex items-center justify-center rounded-full text-2xl font-bold" style={{ width: 72, height: 72, background: 'var(--fp-surface-accent)', color: 'var(--fp-button-accent)' }}>
-                                    {(user.displayName ?? user.email ?? '?').charAt(0).toUpperCase()}
+                                    {(user.user_metadata?.full_name ?? user.email ?? '?').charAt(0).toUpperCase()}
                                 </div>
                             )}
                             <div>
-                                <p className="text-2xl font-bold" style={{ color: 'var(--fp-text-primary)' }}>{user.displayName ?? 'Anonymous'}</p>
+                                <p className="text-2xl font-bold" style={{ color: 'var(--fp-text-primary)' }}>{user.user_metadata?.full_name ?? 'Anonymous'}</p>
                                 <p className="text-sm mt-0.5" style={{ color: 'var(--fp-text-muted)' }}>{user.email}</p>
                                 {profile.roles.length > 0 && (
                                     <p className="text-sm mt-1 font-medium" style={{ color: 'var(--fp-button-accent)' }}>
@@ -335,14 +342,14 @@ export default function ProfilePage() {
                                     style={{ clipPath: cutCorners(12), background: 'var(--fp-surface-primary)', border: '1px solid rgba(111,149,197,0.2)' }}
                                 >
                                     <div className="flex items-center gap-3">
-                                        {user.photoURL
-                                            ? <img src={user.photoURL} alt="" className="rounded-full" style={{ width: 40, height: 40 }} referrerPolicy="no-referrer" />
+                                        {user.user_metadata?.avatar_url
+                                            ? <img src={user.user_metadata?.avatar_url} alt="" className="rounded-full" style={{ width: 40, height: 40 }} referrerPolicy="no-referrer" />
                                             : <div className="rounded-full flex items-center justify-center text-sm font-bold" style={{ width: 40, height: 40, background: 'var(--fp-surface-accent)', color: 'var(--fp-button-accent)' }}>
-                                                {(user.displayName ?? '?').charAt(0).toUpperCase()}
+                                                {(user.user_metadata?.full_name ?? '?').charAt(0).toUpperCase()}
                                             </div>
                                         }
                                         <div>
-                                            <p className="font-semibold text-sm" style={{ color: 'var(--fp-text-primary)' }}>{user.displayName ?? 'You'}</p>
+                                            <p className="font-semibold text-sm" style={{ color: 'var(--fp-text-primary)' }}>{user.user_metadata?.full_name ?? 'You'}</p>
                                             {profile.bio && <p className="text-xs mt-0.5 line-clamp-1" style={{ color: 'var(--fp-text-muted)' }}>{profile.bio}</p>}
                                         </div>
                                     </div>
