@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { onAuthStateChanged, signOut, type User } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
+import { type User } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 
 function cutCorners(px: number) {
     return `polygon(${px}px 0,calc(100% - ${px}px) 0,100% ${px}px,100% calc(100% - ${px}px),calc(100% - ${px}px) 100%,${px}px 100%,0 calc(100% - ${px}px),0 ${px}px)`
@@ -16,10 +16,15 @@ export default function Navbar() {
     const menuRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        return onAuthStateChanged(auth, (u) => {
-            setUser(u)
+        supabase.auth.getSession().then(({ data }) => {
+            setUser(data.session?.user ?? null)
             setReady(true)
         })
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null)
+            setReady(true)
+        })
+        return () => subscription.unsubscribe()
     }, [])
 
     useEffect(() => {
@@ -60,10 +65,10 @@ export default function Navbar() {
                                 style={{ width: 36, height: 36 }}
                                 aria-label="Account menu"
                             >
-                                {user.photoURL ? (
+                                {user.user_metadata?.avatar_url ? (
                                     <img
-                                        src={user.photoURL}
-                                        alt={user.displayName ?? 'Profile'}
+                                        src={user.user_metadata.avatar_url}
+                                        alt={user.user_metadata?.full_name ?? 'Profile'}
                                         className="w-full h-full object-cover"
                                         referrerPolicy="no-referrer"
                                     />
@@ -72,7 +77,7 @@ export default function Navbar() {
                                         className="w-full h-full flex items-center justify-center text-sm font-bold"
                                         style={{ background: 'var(--fp-surface-accent)', color: 'var(--fp-button-accent)' }}
                                     >
-                                        {(user.displayName ?? user.email ?? '?').charAt(0).toUpperCase()}
+                                        {(user.user_metadata?.full_name ?? user.email ?? '?').charAt(0).toUpperCase()}
                                     </span>
                                 )}
                             </button>
@@ -88,7 +93,7 @@ export default function Navbar() {
                                     }}
                                 >
                                     <p className="px-4 py-2 text-xs truncate" style={{ color: 'var(--fp-text-muted)' }}>
-                                        {user.displayName ?? user.email}
+                                        {user.user_metadata?.full_name ?? user.email}
                                     </p>
                                     <div style={{ borderTop: '1px solid rgba(111,149,197,0.12)' }} />
                                     <Link
@@ -100,7 +105,7 @@ export default function Navbar() {
                                         My Projects
                                     </Link>
                                     <button
-                                        onClick={() => { signOut(auth); setMenuOpen(false) }}
+                                        onClick={() => { supabase.auth.signOut(); setMenuOpen(false) }}
                                         className="px-4 py-2 text-sm text-left transition hover:brightness-110"
                                         style={{ color: '#f87171' }}
                                     >

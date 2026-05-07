@@ -515,12 +515,19 @@ export default function ProjectsPage() {
                                     >
                                         <div className="flex h-full flex-col">
                                             <div className="relative h-52 w-full overflow-hidden">
-                                                <img
-                                                    style={{ background: 'radial-gradient(circle, rgba(0,255,255,0.1), transparent)' }}
-                                                    src={project.image}
-                                                    alt={project.title}
-                                                    className="h-full w-full object-contain p-4 bg-black"
-                                                />
+                                                {project.image ? (
+                                                    <img
+                                                        style={{ background: 'radial-gradient(circle, rgba(0,255,255,0.1), transparent)' }}
+                                                        src={project.image}
+                                                        alt={project.title}
+                                                        className="h-full w-full object-contain p-4 bg-black"
+                                                    />
+                                                ) : (
+                                                    <div
+                                                        className="h-full w-full bg-black"
+                                                        style={{ background: 'radial-gradient(circle, rgba(0,255,255,0.1), transparent)' }}
+                                                    />
+                                                )}
                                                 <div className="absolute right-4 top-4">
                                                     <span
                                                         className="text-xs px-3 py-1 font-medium"
